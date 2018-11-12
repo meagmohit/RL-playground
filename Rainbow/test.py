@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*- 
-
+# -*- coding: utf-8 -*-
 import os
 import plotly
 from plotly.graph_objs import Scatter
