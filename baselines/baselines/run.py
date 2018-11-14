@@ -30,6 +30,11 @@ try:
 except ImportError:
     roboschool = None
 
+try:
+    import gym_catch
+except ImportError:
+    gym_catch = None
+
 _game_envs = defaultdict(set)
 for env in gym.envs.registry.all():
     # TODO: solve this with regexes
@@ -50,6 +55,10 @@ _game_envs['retro'] = {
     'SpaceInvaders-Snes',
 }
 
+if gym_catch is not None:
+  _game_envs['atari'].add('catch-v0')
+
+#print(_game_envs)
 
 def train(args, extra_args):
     env_type, env_id = get_env_type(args.env)
