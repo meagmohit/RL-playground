@@ -55,8 +55,8 @@ _game_envs['retro'] = {
     'SpaceInvaders-Snes',
 }
 
-if gym_catch is not None:
-  _game_envs['atari'].add('catch-v0')
+#if gym_catch is not None:
+#  _game_envs['atari'].add('catch-v0')
 
 #print(_game_envs)
 
@@ -101,6 +101,8 @@ def build_env(args):
     seed = args.seed
 
     env_type, env_id = get_env_type(args.env)
+    #print "Mohit" 
+    #print env_type, env_id
 
     if env_type in {'atari', 'retro'}:
         if alg == 'deepq':

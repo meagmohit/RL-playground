@@ -25,6 +25,7 @@ class NotSteppingError(Exception):
 
 
 class VecEnv(ABC):
+    __metaclass__ = ABC   # Added by Mohit
     """
     An abstract asynchronous, vectorized environment.
     Used to batch data from multiple copies of an environment, so that
