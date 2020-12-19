@@ -12,8 +12,8 @@ opencv-python
 filelock
 pytest
 atari-py
-pybullet
 mpi4py
+pybullet
 
 [bullet]
 pybullet

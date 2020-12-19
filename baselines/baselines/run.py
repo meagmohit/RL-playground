@@ -5,6 +5,7 @@ import gym
 from collections import defaultdict
 import tensorflow as tf
 import numpy as np
+import time
 
 from baselines.common.vec_env.vec_video_recorder import VecVideoRecorder
 from baselines.common.vec_env.vec_frame_stack import VecFrameStack
@@ -32,13 +33,15 @@ except ImportError:
 
 try:
     import gym_catch
+    import gym_maze
 except ImportError:
     gym_catch = None
+    gym_maze = None
 
 _game_envs = defaultdict(set)
 for env in gym.envs.registry.all():
     # TODO: solve this with regexes
-    env_type = env._entry_point.split(':')[0].split('.')[-1]
+    env_type = env.entry_point.split(':')[0].split('.')[-1]
     _game_envs[env_type].add(env.id)
 
 # reading benchmark names directly from retro requires
@@ -55,8 +58,10 @@ _game_envs['retro'] = {
     'SpaceInvaders-Snes',
 }
 
-#if gym_catch is not None:
-#  _game_envs['atari'].add('catch-v0')
+if gym_catch is not None:
+ _game_envs['atari'].add('CatchNoFrameskip-v1')
+if gym_maze is not None:
+ _game_envs['atari'].add('MazeNoFrameskip-v1')
 
 #print(_game_envs)
 
@@ -101,7 +106,7 @@ def build_env(args):
     seed = args.seed
 
     env_type, env_id = get_env_type(args.env)
-    #print "Mohit" 
+    #print "Mohit"
     #print env_type, env_id
 
     if env_type in {'atari', 'retro'}:
@@ -220,10 +225,12 @@ def main():
         def initialize_placeholders(nlstm=128,**kwargs):
             return np.zeros((args.num_env or 1, 2*nlstm)), np.zeros((1))
         state, dones = initialize_placeholders(**extra_args)
+        # time.sleep(10)
         while True:
             actions, _, state, _ = model.step(obs,S=state, M=dones)
             obs, _, done, _ = env.step(actions)
             env.render()
+            time.sleep(1)
             done = done.any() if isinstance(done, np.ndarray) else done
 
             if done:

@@ -16,7 +16,7 @@ class NoopResetEnv(gym.Wrapper):
         self.noop_max = noop_max
         self.override_num_noops = None
         self.noop_action = 0
-        assert env.unwrapped.get_action_meanings()[0] == 'NOOP'
+        # assert env.unwrapped.get_action_meanings()[0] == 'NOOP'
 
     def reset(self, **kwargs):
         """ Do no-op action for a number of steps in [1, noop_max]."""
@@ -220,7 +220,7 @@ def make_atari(env_id, timelimit=True):
         env = env.env
     assert 'NoFrameskip' in env.spec.id
     env = NoopResetEnv(env, noop_max=30)
-    env = MaxAndSkipEnv(env, skip=4)
+    env = MaxAndSkipEnv(env, skip=1)
     return env
 
 def wrap_deepmind(env, episode_life=True, clip_rewards=True, frame_stack=False, scale=False):
@@ -238,4 +238,3 @@ def wrap_deepmind(env, episode_life=True, clip_rewards=True, frame_stack=False, 
     if frame_stack:
         env = FrameStack(env, 4)
     return env
-
